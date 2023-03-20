@@ -38,7 +38,12 @@ function checkInput(event){
   let input = document.getElementById("inputbox");
   let curWord = input.value;
 
-  if(event.data == null && event.inputType == "deleteContentBackward"){
+  //TODO: CTRL - BACKSPACE, faz nada
+
+  if(event.data == null && event.inputType == "deleteContentBackward" && currentLetterIndex > 0){
+    if(curWord.length >= wordToGuess.length){
+      return;
+    }
     currentLetterIndex--;
     showcaseLetter[currentLetterIndex].style.color = "black";
     return;
@@ -49,8 +54,11 @@ function checkInput(event){
     currentLetterIndex++;
   }
   else{
+    if(currentLetterIndex >= wordToGuess.length){
+      return;
+    }
     showcaseLetter[currentLetterIndex].style.color = "red";
-    currentLetterIndex+=1;
+    currentLetterIndex++;
   }
 
   if(curWord == wordToGuess){
@@ -58,10 +66,17 @@ function checkInput(event){
     currentWordIndex++;
     currentLetterIndex = 0;
     curWord = null;
+    checkEndGame();
   }
 }
 
 function getLastLetter(event){
   const input = event.target.value;
   return input[input.length - 1];
+}
+
+function checkEndGame(){
+  if(currentWordIndex >= WORDS.length){
+    
+  }
 }
