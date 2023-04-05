@@ -1,10 +1,15 @@
-const WORDS = [
-  "hello",
-  "world",
-  "how",
-  "are",
-  "u"
-]
+WORDS = []
+const numberOfSetences = 2;
+const apiUrl = `https://baconipsum.com/api/?type=all-meat&paras=1&sentences=${numberOfSetences}&type=meat-and-filler`;
+
+ fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    WORDS = data[0].split(' ');
+    showWords()
+  })
+  .catch(error => console.error(error))
+
 
 let currentWordIndex = 0;
 let currentLetterIndex = 0;
