@@ -1,4 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
+
+.game{
+  position: relative;
+}
+
+body{
+  background-color: #323437;
+  color: #5C5E62;
+  font-size: 2rem;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+
+}
+
+#word-showcase{
+  position: relative;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+}
+
 .word{
   display: flex;
-  margin-right: 4px;
+  margin-right: 15px;
+}
+
+input{
+  background-color: inherit;
+  border: none;
+  outline: 2px solid  #262729;
+  box-shadow: none;
+  font-size: 2rem;
+  color: inherit;
 }
