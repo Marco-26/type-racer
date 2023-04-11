@@ -6,19 +6,33 @@
 }
 
 body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
   background-color: #323437;
   color: #5C5E62;
   font-size: 2rem;
   font-family: 'IBM Plex Mono', monospace;
 }
 
-#word-showcase{
-  margin-top: 50px;
+.container {
+  padding: 1rem;
+  border-radius: .5rem;
+  max-width: 90%;
 }
 
-.word{
+#word-showcase{
+  /* margin-top: 50px;
+  width: 100vw;
+  max-width: 90%; */
+  align-content: flex-start;
   display: flex;
-  margin-right: 15px;
+  flex-wrap: wrap;
+  padding-bottom: 1em;
+  user-select: none;
+  width: 100%;
 }
 
 input{
@@ -32,4 +46,13 @@ input{
   color: inherit;
   width: inherit;
   font-family: 'IBM Plex Mono', monospace;
+}
+
+.word{
+  margin-right: 13px;
+}
+
+span{
+  margin: 0;
+  padding: 0;
 }

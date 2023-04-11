@@ -1,6 +1,12 @@
-words = []
+let words = []
 const numberOfSetences = 2;
 const API = 'http://api.quotable.io/random'
+
+let currentWordIndex = 0;
+let currentLetterIndex = 0;
+let inputArea = document.getElementById("inputbox");
+
+inputArea.addEventListener("input", checkInput);
 
 function getRandomQuote() {
   return fetch(API)
@@ -8,32 +14,11 @@ function getRandomQuote() {
     .then(data => data.content)
 }
 
-async function getData(){
-  const quote = await getRandomQuote();
-  words = quote.split(' ');
-  showWords(words);
-  // let wordShowcaseContainer = document.getElementById("word-showcase");
-  // wordShowcaseContainer.innerHTML = '';
-  // words.forEach(word => {
-  //     const span = document.createElement("span");
-  //     // span.setAttribute("class","word");
-  //     span.innerText = char;
-  //     wordShowcaseContainer.appendChild(span);
-  // });
-}
-
-getData();
-
-let currentWordIndex = 0;
-let currentLetterIndex = 0;
-
-let inputArea = document.getElementById("inputbox");
-inputArea.addEventListener("input", checkInput);
-
-function showWords(words){
+async function renderWords(){
+  let quote = await getRandomQuote();
+  words = quote.split(' ')
   let wordShowcaseContainer = document.getElementById("word-showcase");
   wordShowcaseContainer.innerHTML = '';
-
   for (let i = 0; i < words.length; i++) {
     const wordDiv = document.createElement("div");
     wordDiv.setAttribute("class","word");
@@ -42,16 +27,13 @@ function showWords(words){
       letter.textContent = words[i].charAt(k);
       wordDiv.append(letter);
     }
-    wordShowcaseContainer.append(wordDiv)
-
-  // words.split('').forEach(char => {
-  //     const span = document.createElement("span");
-  //     span.innerText = char;
-  //     wordShowcaseContainer.appendChild(span);
-  //     console.log("Hello")
-  // });
+    wordShowcaseContainer.append(wordDiv);
   }
+
+  startTimer();
 }
+
+renderWords();
 
 function checkInput(event){
   const lastLetter = getLastLetter(event);
@@ -102,7 +84,21 @@ function getLastLetter(event){
 }
 
 function checkEndGame(){
-  if(currentWordIndex >= WORDS.length){
-    
+  if(currentWordIndex >= words.length){
+      console.log("Voce ganhou")
   }
+}
+
+function startTimer(){
+  let timeLeft = 30;
+  let timer = document.getElementById("timer");
+  timer.innerText = timeLeft;
+  const timerInterval = setInterval(() => {
+    timeLeft--;
+    timer.innerText = timeLeft;
+
+    if(timeLeft < 0){
+      timeLeft = 0;
+    }
+  },1000)
 }
