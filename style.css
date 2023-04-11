@@ -1,23 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
 .game{
-  position: relative;
+  width: 90%;
+  margin: 0 auto;
 }
 
 body{
   background-color: #323437;
   color: #5C5E62;
   font-size: 2rem;
-  text-align: center;
   font-family: 'IBM Plex Mono', monospace;
-
 }
 
 #word-showcase{
-  position: relative;
-  z-index: 0;
-  display: flex;
-  justify-content: center;
+  margin-top: 50px;
 }
 
 .word{
@@ -26,10 +22,14 @@ body{
 }
 
 input{
+  margin-top: 50px;
+  border-radius: 10px;
   background-color: inherit;
   border: none;
   outline: 2px solid  #262729;
   box-shadow: none;
   font-size: 2rem;
   color: inherit;
+  width: inherit;
+  font-family: 'IBM Plex Mono', monospace;
 }

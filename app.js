@@ -1,17 +1,25 @@
 words = []
-const numberOfSetences = 1;
-const apiUrl = `https://baconipsum.com/api/?type=all-meat&paras=1&sentences=${numberOfSetences}&type=meat-and-filler`;
+const numberOfSetences = 2;
+const API = 'http://api.quotable.io/random'
+
+function getRandomQuote() {
+  return fetch(API)
+    .then(response => response.json())
+    .then(data => data.content)
+}
 
 async function getData(){
-  try{
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-    words = data[0].split(' ');
-    showWords(words);
-  }
-  catch(error){
-    console.log(error);
-  }
+  const quote = await getRandomQuote();
+  words = quote.split(' ');
+  showWords(words);
+  // let wordShowcaseContainer = document.getElementById("word-showcase");
+  // wordShowcaseContainer.innerHTML = '';
+  // words.forEach(word => {
+  //     const span = document.createElement("span");
+  //     // span.setAttribute("class","word");
+  //     span.innerText = char;
+  //     wordShowcaseContainer.appendChild(span);
+  // });
 }
 
 getData();
@@ -22,17 +30,26 @@ let currentLetterIndex = 0;
 let inputArea = document.getElementById("inputbox");
 inputArea.addEventListener("input", checkInput);
 
-function showWords(words){ 
+function showWords(words){
   let wordShowcaseContainer = document.getElementById("word-showcase");
+  wordShowcaseContainer.innerHTML = '';
+
   for (let i = 0; i < words.length; i++) {
-    const newDiv = document.createElement("div");
-    newDiv.setAttribute("class","word");
+    const wordDiv = document.createElement("div");
+    wordDiv.setAttribute("class","word");
     for (let k = 0; k < words[i].length; k++) {
-      const newParagraph = document.createElement("p");
-      newParagraph.textContent = words[i].charAt(k);
-      newDiv.append(newParagraph);
+      const letter = document.createElement("span");
+      letter.textContent = words[i].charAt(k);
+      wordDiv.append(letter);
     }
-    wordShowcaseContainer.append(newDiv)
+    wordShowcaseContainer.append(wordDiv)
+
+  // words.split('').forEach(char => {
+  //     const span = document.createElement("span");
+  //     span.innerText = char;
+  //     wordShowcaseContainer.appendChild(span);
+  //     console.log("Hello")
+  // });
   }
 }
 
