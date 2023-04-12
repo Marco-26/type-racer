@@ -1,12 +1,24 @@
-let words = []
+// TODO: O TIMER SO DEVE COMECAR A CONTAR QUANDO ESCREVO ALGO
+
+let words = [];
+let wordsWritten = 0;
+let currentWordIndex = 0;
+let currentLetterIndex = 0;
+let timeLeft = 30;
+let correctCharCounter = 0;
+
 const numberOfSetences = 2;
 const API = 'http://api.quotable.io/random'
 
-let currentWordIndex = 0;
-let currentLetterIndex = 0;
 let inputArea = document.getElementById("inputbox");
 
 inputArea.addEventListener("input", checkInput);
+
+const gameScreen = document.querySelector('.game');
+const endGameScreen = document.querySelector('.end');
+
+gameScreen.style.display = 'block';
+endGameScreen.style.display = 'none';
 
 function getRandomQuote() {
   return fetch(API)
@@ -29,7 +41,6 @@ async function renderWords(){
     }
     wordShowcaseContainer.append(wordDiv);
   }
-
   startTimer();
 }
 
@@ -74,7 +85,10 @@ function checkInput(event){
     currentWordIndex++;
     currentLetterIndex = 0;
     curWord = null;
-    checkEndGame();
+    wordsWritten++;
+    if(currentWordIndex >= words.length){
+      endGame();
+    }
   }
 }
 
@@ -83,22 +97,25 @@ function getLastLetter(event){
   return input[input.length - 1];
 }
 
-function checkEndGame(){
-  if(currentWordIndex >= words.length){
-      console.log("Voce ganhou")
-  }
+async function endGame(){
+    await import('./endgame.js');
+    let wpm = (wordsWritten/timeLeft) * 60;
+    localStorage.setItem("wpm",wpm);
+    localStorage.setItem("charsTyped", currentLetterIndex);
+    gameScreen.style.display = 'none';
+    endGameScreen.style.display = 'block';
 }
 
 function startTimer(){
-  let timeLeft = 30;
   let timer = document.getElementById("timer");
   timer.innerText = timeLeft;
   const timerInterval = setInterval(() => {
     timeLeft--;
     timer.innerText = timeLeft;
 
-    if(timeLeft < 0){
-      timeLeft = 0;
+    if(timeLeft <= 0){
+      timer.innerText = 0;
+      endGame();
     }
   },1000)
 }

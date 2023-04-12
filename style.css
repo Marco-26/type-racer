@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
+:root{
+  --yellow:#E2B714;
+  --light-grey:#5C5E62;
+}
+
 .game{
   width: 90%;
   margin: 0 auto;
@@ -12,7 +17,7 @@ body{
   min-height: 100vh;
   margin: 0;
   background-color: #323437;
-  color: #5C5E62;
+  color: var(--light-grey);
   font-size: 2rem;
   font-family: 'IBM Plex Mono', monospace;
 }
@@ -24,15 +29,18 @@ body{
 }
 
 #word-showcase{
-  /* margin-top: 50px;
-  width: 100vw;
-  max-width: 90%; */
+  margin-top: 30px;
   align-content: flex-start;
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 1em;
   user-select: none;
   width: 100%;
+}
+
+#timer{
+  margin-bottom: 20px;
+  color:var(--yellow);
 }
 
 input{
@@ -55,4 +63,42 @@ input{
 span{
   margin: 0;
   padding: 0;
+}
+
+/* End game */
+.end{
+  
+}
+
+.statistics-container{
+  display: flex;
+}
+
+.end div > *:not(:last-child){
+  margin-right: 50px;
+}
+
+.statistics-title{
+  padding: 0;
+  margin-bottom: -15px;
+}
+
+.statistics{
+  color: var(--yellow);
+  margin-top: 0;
+  font-size: 80px;
+}
+
+.restart-button{
+  background-color: transparent;
+  border: none;
+}
+
+.restart-button:hover{
+  cursor: pointer;
+}
+
+.fa-solid{
+  color: var(--light-grey);
+  font-size: 20px;
 }
