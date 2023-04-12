@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Type Racer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+ <div class="game">
+    <span id="timer"></span>
+    <div id="word-showcase">
+    </div>
+    <input type="text" style="height: 100px;" id="inputbox" autofocus>
+  </div> 
+
+  <div class="end">
+    <div class="statistics-container">
+      <div class="wpm-container">
+        <p class="wpm statistics-title">wpm</p>
+        <span class="wpm-number statistics ">66</span>
+      </div>
+
+      <div class="charsTyped-container">
+        <p class="statistics-title">typed</p>
+        <span class="chars-typed statistics"></span>
+      </div>
+      
+    </div>
+    <div style="text-align:center">
+      <button class="restart-button"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
