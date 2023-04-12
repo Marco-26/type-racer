@@ -1,6 +1,8 @@
 // TODO: O TIMER SO DEVE COMECAR A CONTAR QUANDO ESCREVO ALGO
 
+let gameStarted = false;
 let words = [];
+let timerStarted = false;
 let wordsWritten = 0;
 let currentWordIndex = 0;
 let currentLetterIndex = 0;
@@ -10,12 +12,13 @@ let correctCharCounter = 0;
 const numberOfSetences = 2;
 const API = 'http://api.quotable.io/random'
 
-let inputArea = document.getElementById("inputbox");
-
-inputArea.addEventListener("input", checkInput);
-
+const inputArea = document.getElementById("inputbox");
+const timer = document.getElementById("timer");
 const gameScreen = document.querySelector('.game');
 const endGameScreen = document.querySelector('.end');
+
+inputArea.addEventListener("input", checkInput);
+timer.innerText = timeLeft;
 
 gameScreen.style.display = 'block';
 endGameScreen.style.display = 'none';
@@ -41,12 +44,15 @@ async function renderWords(){
     }
     wordShowcaseContainer.append(wordDiv);
   }
-  startTimer();
 }
 
 renderWords();
 
 function checkInput(event){
+  if(!timerStarted)
+    startTimer();
+
+  gameStarted = true;
   const lastLetter = getLastLetter(event);
 
   let showcaseWordContainer = document.getElementById("word-showcase").children;
@@ -107,7 +113,7 @@ async function endGame(){
 }
 
 function startTimer(){
-  let timer = document.getElementById("timer");
+  timerStarted = true;
   timer.innerText = timeLeft;
   const timerInterval = setInterval(() => {
     timeLeft--;
@@ -119,3 +125,4 @@ function startTimer(){
     }
   },1000)
 }
+
