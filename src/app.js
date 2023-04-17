@@ -1,3 +1,7 @@
+//TODO: Obrigatório usar espaço para completar as palavras
+//TODO: Botão de reset funcional
+//TODO: Barra para escolher quanto tempo para escrever
+
 let words = [];
 let timerStarted = false;
 let wordsWritten = 0;
@@ -28,6 +32,7 @@ function getRandomQuote() {
 async function renderWords() {
   let quote = await getRandomQuote();
   words = quote.split(' ');
+  words = words.map(word => word + ' ');
   let wordShowcaseContainer = document.getElementById('word-showcase');
   wordShowcaseContainer.innerHTML = '';
   for (let i = 0; i < words.length; i++) {
@@ -83,7 +88,9 @@ function checkInput(event) {
     currentLetterIndex++;
   }
 
-  if (curWord == wordToGuess) {
+  console.log(event.inputType == 'insertText' && event.data === ' ');
+
+  if (curWord == wordToGuess && (event.inputType == 'insertText' && event.data === ' ')) {
     input.value = '';
     currentWordIndex++;
     currentLetterIndex = 0;
