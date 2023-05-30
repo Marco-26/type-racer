@@ -10,6 +10,8 @@ let wordsTyped = 0;
 let currentLetterIndex = 0;
 let time = 30;
 let timeLeft = 30;
+let gameEnded = false;
+let intervalId;
 
 const API = 'http://api.quotable.io/random';
 
@@ -25,7 +27,9 @@ console.log(timeLeft);
 gameScreen.style.display = 'block';
 endGameScreen.style.display = 'none';
 
-function getRandomQuote() {
+
+
+async function getRandomQuote() {
   return fetch(API)
     .then((response) => response.json())
     .then((data) => data.content);
@@ -67,7 +71,7 @@ async function renderWords() {
 renderWords();
 
 function checkInput(event) {
-  if (!timerStarted) startTimer();
+  if (!timerStarted) startInterval();
 
   const lastLetter = getLastLetter(event);
 
@@ -127,6 +131,10 @@ function getLastLetter(event) {
 }
 
 async function endGame() {
+  timerStarted = false;
+  gameEnded = true;
+  timeLeft = 30;
+  timer.innerText = timeLeft;
   await import('./endgame.js');
   let wpm = (wordsWritten / time) * 60;
   localStorage.setItem('wpm', wpm);
@@ -135,16 +143,26 @@ async function endGame() {
   endGameScreen.style.display = 'block';
 }
 
-function startTimer() {
+function startInterval() {
   timerStarted = true;
   timer.innerText = timeLeft;
-  setInterval(() => {
-    timeLeft--;
-    timer.innerText = timeLeft;
+  intervalId = setInterval(startTimer, 1000); // Starts the interval
+}
 
-    if (timeLeft <= 0) {
-      timer.innerText = 0;
-      endGame();
-    }
-  }, 1000);
+function stopInterval() {
+  clearInterval(intervalId); // Clears the interval
+}
+
+function startTimer() {
+  timeLeft--;
+  console.log('oi');
+  timer.innerText = timeLeft;
+
+  if (timeLeft <= 0) {
+    timer.innerText = 0;
+    endGame();
+  }
+  if(gameEnded){
+      stopInterval(intervalId);
+  }
 }
