@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 :root{
   --yellow:#E2B714;
   --light-grey:#5C5E62;
@@ -8,6 +7,38 @@
 .game{
   width: 90%;
   margin: 0 auto;
+}
+
+.options{
+  display: flex;
+  justify-content: center;
+  background-color: #262629;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.options-menu{
+  display: flex;
+  align-items: center;
+}
+
+.options button{
+  font:inherit;
+  font-size: 20px;
+  margin-right: 40px;
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	outline: inherit;
+  color:var(--light-grey);
+}
+
+.options button:hover{
+  cursor:pointer;
+  color:white;
 }
 
 body{
@@ -66,9 +97,6 @@ span{
 }
 
 /* End game */
-.end{
-  
-}
 
 .statistics-container{
   display: flex;

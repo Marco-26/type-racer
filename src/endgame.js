@@ -1,5 +1,5 @@
 const wpmStr = localStorage.getItem('wpm');
-const charsTyped = localStorage.getItem('charsTyped');
+const wordsTyped = localStorage.getItem('wordsTyped');
 
 const wpmFormatted = parseInt(wpmStr);
 
@@ -11,7 +11,7 @@ const gameScreen = document.querySelector('.game');
 const endGameScreen = document.querySelector('.end');
 
 wpmNumberContainer.innerText = wpmFormatted;
-charsTypedContainer.innerText = charsTyped;
+charsTypedContainer.innerText = wordsTyped;
 
 restartButton.addEventListener('click', () =>{
   console.log('Clicked');

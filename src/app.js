@@ -1,10 +1,10 @@
-//TODO: Botão de reset funcional
+//TODO: Botão de reset na parte de escrever, caso queira um novo texto
 //TODO: Barra para escolher quanto tempo para escrever
-//TODO: A ultima palavra do array não deve precisar de espaço para acabar o jogo
+//TODO: Adicionar um modo, com tempo e outro modo com montante de palavras
+
 
 let words = [];
 let timerStarted = false;
-let wordsWritten = 0;
 let currentWordIndex = 0;
 let wordsTyped = 0;
 let currentLetterIndex = 0;
@@ -13,7 +13,9 @@ let timeLeft = 30;
 let gameEnded = false;
 let intervalId;
 
-const API = 'http://api.quotable.io/random';
+let minLength = 100;
+let maxLength = 120;
+const API = `http://api.quotable.io/random?minLength=${minLength}&&maxLength=${maxLength}`;
 
 const inputArea = document.getElementById('inputbox');
 const timer = document.getElementById('timer');
@@ -26,8 +28,6 @@ console.log(timeLeft);
 
 gameScreen.style.display = 'block';
 endGameScreen.style.display = 'none';
-
-
 
 async function getRandomQuote() {
   return fetch(API)
@@ -117,7 +117,6 @@ function checkInput(event) {
       currentWordIndex++;
       currentLetterIndex = 0;
       curWord = null;
-      wordsWritten++;
     }
     if (currentWordIndex >= totalWords) {
       endGame();
@@ -136,12 +135,14 @@ async function endGame() {
   timeLeft = 30;
   timer.innerText = timeLeft;
   await import('./endgame.js');
-  let wpm = (wordsWritten / time) * 60;
+  let wpm = (wordsTyped / (time-timeLeft/60))*60 ;
+  console.log(wpm);
   localStorage.setItem('wpm', wpm);
-  localStorage.setItem('charsTyped', currentLetterIndex);
+  localStorage.setItem('wordsTyped', wordsTyped);
   gameScreen.style.display = 'none';
   endGameScreen.style.display = 'block';
 }
+
 
 function startInterval() {
   timerStarted = true;
@@ -155,7 +156,6 @@ function stopInterval() {
 
 function startTimer() {
   timeLeft--;
-  console.log('oi');
   timer.innerText = timeLeft;
 
   if (timeLeft <= 0) {
@@ -163,6 +163,6 @@ function startTimer() {
     endGame();
   }
   if(gameEnded){
-      stopInterval(intervalId);
+    stopInterval(intervalId);
   }
 }
