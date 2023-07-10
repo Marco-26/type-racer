@@ -9,22 +9,35 @@ let currentWordIndex = 0;
 let wordsTyped = 0;
 let currentLetterIndex = 0;
 let time = 30;
-let timeLeft = 30;
-let gameEnded = false;
+let timeLeft = time;
 let intervalId;
+
+let gamemode = 'timer'; // timer | words
 
 let minLength = 100;
 let maxLength = 120;
 const API = `http://api.quotable.io/random?minLength=${minLength}&&maxLength=${maxLength}`;
 
 const inputArea = document.getElementById('inputbox');
-const timer = document.getElementById('timer');
+const progressStatus = document.getElementById('progress');
 const gameScreen = document.querySelector('.game');
 const endGameScreen = document.querySelector('.end');
+const optionsBar = document.querySelector('.options');
+const wordGamemodeButton = document.querySelector('.wordGamemode');
+const timerGamemodeButton = document.querySelector('.timerGamemode');
 
 inputArea.addEventListener('input', checkInput);
-timer.innerText = timeLeft;
-console.log(timeLeft);
+
+wordGamemodeButton.addEventListener('click', () =>{
+  gamemode = 'word';
+  render();
+});
+
+timerGamemodeButton.addEventListener('click', () => {
+  gamemode = 'timer';
+  render();
+});
+
 
 gameScreen.style.display = 'block';
 endGameScreen.style.display = 'none';
@@ -47,13 +60,13 @@ async function getFormattedWords(){
       return word + ' ';
     }
   });
-  console.log(wordsArr);
   return wordsArr;
 }
 
-async function renderWords() {
+async function render() {
   words = await getFormattedWords();
-  console.log(words);
+  wordsLeft = words.length;
+
   let wordShowcaseContainer = document.getElementById('word-showcase');
   wordShowcaseContainer.innerHTML = '';
   for (let i = 0; i < words.length; i++) {
@@ -68,10 +81,10 @@ async function renderWords() {
   }
 }
 
-renderWords();
+render();
 
 function checkInput(event) {
-  if (!timerStarted) startInterval();
+  optionsBar.style.display = 'none';
 
   const lastLetter = getLastLetter(event);
 
@@ -83,6 +96,8 @@ function checkInput(event) {
   let input = document.getElementById('inputbox');
   let curWord = input.value;
   let totalWords = words.length;
+  
+  updateStatusBar(totalWords);
 
   //TODO: CTRL - BACKSPACE, faz nada
 
@@ -112,6 +127,8 @@ function checkInput(event) {
 
   if (curWord == wordToGuess) {
     wordsTyped++;
+    wordsLeft--;
+   
     if(wordsTyped == totalWords || event.inputType == 'insertText' && event.data === ' '){
       input.value = '';
       currentWordIndex++;
@@ -130,10 +147,11 @@ function getLastLetter(event) {
 }
 
 async function endGame() {
+  stopInterval(intervalId);
+  optionsBar.style.display = 'block';
   timerStarted = false;
-  gameEnded = true;
-  timeLeft = 30;
-  timer.innerText = timeLeft;
+  timeLeft = time;
+  progressStatus.innerText = timeLeft;
   await import('./endgame.js');
   let wpm = (wordsTyped / (time-timeLeft/60))*60 ;
   console.log(wpm);
@@ -143,10 +161,9 @@ async function endGame() {
   endGameScreen.style.display = 'block';
 }
 
-
 function startInterval() {
   timerStarted = true;
-  timer.innerText = timeLeft;
+  progressStatus.innerText = timeLeft;
   intervalId = setInterval(startTimer, 1000); // Starts the interval
 }
 
@@ -156,13 +173,21 @@ function stopInterval() {
 
 function startTimer() {
   timeLeft--;
-  timer.innerText = timeLeft;
+  progressStatus.innerText = timeLeft;
 
   if (timeLeft <= 0) {
-    timer.innerText = 0;
+    progressStatus.innerText = 0;
     endGame();
   }
-  if(gameEnded){
-    stopInterval(intervalId);
+}
+
+function updateStatusBar(totalWords){
+  switch(gamemode){
+  case 'timer':
+    startInterval();
+    break;
+  case 'word':
+    progressStatus.innerText = `${wordsTyped}/${totalWords}`;
+    break;
   }
 }

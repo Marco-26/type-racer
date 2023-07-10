@@ -4,6 +4,10 @@
   --light-grey:#5C5E62;
 }
 
+#progress{
+  font-size: 25px;
+}
+
 .game{
   width: 90%;
   margin: 0 auto;
